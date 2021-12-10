@@ -8,4 +8,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/setup-tests.ts'],
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   modulePaths: ['<rootDir>/src'],
+  moduleNameMapper: {
+    '@/(.*)$': '<rootDir>/src/$1',
+  },
 };
