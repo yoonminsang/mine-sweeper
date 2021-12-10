@@ -4,7 +4,8 @@ type TObj = Record<string, string>;
 
 const init: TObj = {};
 
-function reducer(state: TObj, action: TObj) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function reducer(state: any, action: TObj) {
   switch (action.type) {
     case 'CHANGE':
       return {
