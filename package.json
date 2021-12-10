@@ -1,12 +1,13 @@
 {
-  "name": "boiler-plate",
+  "name": "react-typescript-boiler-plate",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "webpack serve --config config/webpack.dev.js --progress",
     "build": "webpack --config config/webpack.prod.js --progress",
-    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --parser-options=project:'./tsconfig.json'"
+    "lint": "eslint ./src --ext .js,.jsx,.ts,.tsx --parser-options=project:'./tsconfig.json'",
+    "test": "jest --config ./jest.config.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.0",
@@ -16,6 +17,7 @@
     "@babel/preset-typescript": "^7.16.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",

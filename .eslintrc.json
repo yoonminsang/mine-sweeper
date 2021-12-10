@@ -22,8 +22,6 @@
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "import/prefer-default-export": "off",
     "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
-    "react/button-has-type": "off",
-    "no-param-reassign": "off",
     "import/extensions": "off",
     "@typescript-eslint/no-shadow": "off",
     "no-new": "off",
@@ -38,7 +36,8 @@
     "react/require-default-props": "off",
     "no-alert": "off",
     "no-nested-ternary": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off"
   },
-  "ignorePatterns": ["webpack.*.js"]
+  "ignorePatterns": ["webpack.*.js", "jest.config.js", "setup-tests.ts"]
 }
