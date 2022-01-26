@@ -1,9 +1,9 @@
 import { IGameInitOption, TGraph } from '@/types/game';
 
-const makeEmptyGraph = (row: number, column: number) => {
+const makeBasicGraph = (row: number, column: number, value: null | 'notSelect') => {
   const graph = Array(row)
     .fill(null)
-    .map(() => Array(column).fill(null));
+    .map(() => Array(column).fill(value));
   return graph;
 };
 
@@ -55,7 +55,7 @@ const calcAroundMine = (
 const makeGraph = (option: IGameInitOption) => {
   const { row, column, mine } = option;
 
-  const graph: TGraph = makeEmptyGraph(row, column);
+  const graph: TGraph = makeBasicGraph(row, column, null);
   const mineArr = makeMineArr(row, column, mine);
   mineArr.forEach(([mineRow, mineColumn]) => {
     graph[mineRow][mineColumn] = 'mine';
@@ -70,4 +70,4 @@ const makeGraph = (option: IGameInitOption) => {
   return calcGraph;
 };
 
-export { makeGraph };
+export { makeBasicGraph, makeGraph };
