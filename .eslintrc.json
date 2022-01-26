@@ -37,7 +37,8 @@
     "no-alert": "off",
     "no-nested-ternary": "off",
     "react/jsx-props-no-spreading": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "no-param-reassign": "off"
   },
   "ignorePatterns": ["webpack.*.js", "jest.config.js", "setup-tests.ts"]
 }
