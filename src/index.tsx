@@ -9,6 +9,8 @@ import App from './app';
 import GlobalStyle from './styles/global-style';
 import theme from './styles/theme';
 import { rootReducer, rootSaga } from './store';
+import { DIFFICULTY } from './constants';
+import { makeGraph } from './store/game';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -21,6 +23,12 @@ const store = configureStore({
 });
 
 sagaMiddleware.run(rootSaga);
+
+const init = () => {
+  store.dispatch({ type: makeGraph.type, payload: DIFFICULTY.beginner });
+};
+
+init();
 
 ReactDom.render(
   <Provider store={store}>
