@@ -44,7 +44,6 @@ describe('util', () => {
   });
 
   it('check the number of mines near the beginner graph', () => {
-    // TODO: 테스트에서 for문으로 여러번 expect를 하는게 괜찮을까??
     const graph = makeGraph(DIFFICULTY.beginner);
     for (let i = 1; i < DIFFICULTY.beginner.row - 1; i++) {
       for (let j = 1; j < DIFFICULTY.beginner.column - 1; j++) {
@@ -54,7 +53,6 @@ describe('util', () => {
   });
 
   it('check the number of mines near the intermediate graph', () => {
-    // TODO: 테스트에서 for문으로 여러번 expect를 하는게 괜찮을까??
     const graph = makeGraph(DIFFICULTY.intermediate);
     for (let i = 1; i < DIFFICULTY.intermediate.row - 1; i++) {
       for (let j = 1; j < DIFFICULTY.intermediate.column - 1; j++) {
@@ -64,7 +62,6 @@ describe('util', () => {
   });
 
   it('check the number of mines near the expert graph', () => {
-    // TODO: 테스트에서 for문으로 여러번 expect를 하는게 괜찮을까??
     const graph = makeGraph(DIFFICULTY.expert);
     for (let i = 1; i < DIFFICULTY.expert.row - 1; i++) {
       for (let j = 1; j < DIFFICULTY.expert.column - 1; j++) {
