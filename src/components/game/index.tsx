@@ -15,7 +15,7 @@ const Wrapper = styled.div``;
 const Game: React.FC<IProps> = ({ currentGraph, onMouseUp, onMouseDown }) => {
   return (
     <Wrapper>
-      <GameHeader />
+      <GameHeader index={currentGraph[0].length} />
       <GameContent currentGraph={currentGraph} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />
     </Wrapper>
   );
