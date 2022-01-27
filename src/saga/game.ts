@@ -2,11 +2,13 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { put, select } from 'redux-saga/effects';
 import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
-import { IGameInitOption, ILocation } from '@/types/game';
+import { ILocation } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils';
 
-function* initGraphSaga(action: PayloadAction<IGameInitOption>): Generator {
-  const { mine, row, column } = action.payload;
+function* initGraphSaga(): Generator {
+  const {
+    menu: { mine, row, column },
+  } = (yield select()) as RootState;
   const graph = makeGraph({ mine, row, column });
   const currentGraph = makeBasicGraph(row, column, 'notSelect');
   yield put({ type: gameStore.initGraphSuccess.type, payload: { mine, graph, currentGraph } });
