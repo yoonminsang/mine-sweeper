@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
 import { leftClickSaga, makeGraphSaga, rightClickSaga, syncClickSaga } from '@/saga/game';
 import { TCurrentGraph, TGraph } from '@/types/game';
+import { DIFFICULTY } from '@/constants';
+import * as utils from '@/utils';
 
 // graph
 // mine, number, null
@@ -17,7 +19,7 @@ interface IGraph {
 interface StateProps {
   graph: TGraph;
   currentGraph: TCurrentGraph;
-  remainSweeper: number;
+  remainMine: number;
   timer: number;
   timerId: number;
   isProcess: boolean;
@@ -26,10 +28,12 @@ interface StateProps {
   isEnd: boolean;
 }
 
+const { row, column } = DIFFICULTY.beginner;
+
 const initialState: StateProps = {
-  graph: [],
-  currentGraph: [],
-  remainSweeper: 10,
+  graph: utils.makeGraph(DIFFICULTY.beginner),
+  currentGraph: utils.makeBasicGraph(row, column, 'notSelect'),
+  remainMine: DIFFICULTY.beginner.mine,
   timer: 0,
   timerId: -1,
   isProcess: false,
