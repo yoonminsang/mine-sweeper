@@ -14,8 +14,10 @@ function* initGraphSaga(action: PayloadAction<IGameInitOption>): Generator {
 
 function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
   const {
-    game: { graph, currentGraph },
+    game: { graph, currentGraph, isProcess, isEnd },
   } = (yield select()) as RootState;
+  if (isEnd) return;
+  if (!isProcess) yield put({ type: gameStore.startGame.type });
   const { row, column } = action.payload;
   const graphCell = graph[row][column];
   const nextCurrentGraph = currentGraph.map((v) => v.slice());
