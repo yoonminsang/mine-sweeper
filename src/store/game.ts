@@ -28,12 +28,12 @@ interface StateProps {
   isEnd: boolean;
 }
 
-const { row, column } = DIFFICULTY.beginner;
+const { row, column, mine } = DIFFICULTY.beginner;
 
 const initialState: StateProps = {
   graph: utils.makeGraph(DIFFICULTY.beginner),
   currentGraph: utils.makeBasicGraph(row, column, 'notSelect'),
-  remainMine: DIFFICULTY.beginner.mine,
+  remainMine: mine,
   timer: 0,
   timerId: -1,
   isProcess: false,
