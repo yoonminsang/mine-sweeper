@@ -25,7 +25,7 @@ const Row = styled.div`
 const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp }) => {
   return (
     <Wrapper>
-      <GameTop currentGraph={currentGraph} />
+      <GameTop index={currentGraph[0].length} />
       {currentGraph.map((currentGraphRow, i) => {
         return (
           <Row key={i}>
@@ -46,7 +46,7 @@ const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp })
           </Row>
         );
       })}
-      <GameBottom currentGraph={currentGraph} />
+      <GameBottom index={currentGraph[0].length} />
     </Wrapper>
   );
 };
