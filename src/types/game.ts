@@ -9,10 +9,15 @@ export interface IDifficulty extends IGameInitOption {
   difficulty: TDifficulty;
 }
 
-export type TGraphCell = 'mine' | number | null;
+export type TGraphCell = 'mine' | number;
 export type TGraph = TGraphCell[][];
-export type TCurrentGraphCell = 'notSelect' | 'mine' | number | null | 'question';
+export type TCurrentGraphCell =
+  | 'notSelect'
+  | 'bombDeath'
+  | 'bombRevealed'
+  | 'bombmIsFlagged'
+  | number
+  | 'flag'
+  | 'question';
 export type TCurrentGraph = TCurrentGraphCell[][];
 export type TDifficulty = 'beginner' | 'intermediate' | 'expert' | 'custom';
-
-// TODO: notSelect 변수명 수정?

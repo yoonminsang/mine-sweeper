@@ -26,8 +26,17 @@ const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, 
     case 'notSelect':
       src += 'blank.gif';
       break;
-    case 'mine':
+    case 'flag':
       src += 'bombflagged.gif';
+      break;
+    case 'bombRevealed':
+      src += 'bombrevealed.gif';
+      break;
+    case 'bombDeath':
+      src += 'bombdeath.gif';
+      break;
+    case 'bombmIsFlagged':
+      src += 'bombmisflagged.gif';
       break;
     case 'question':
       src += 'bombquestion.gif';
