@@ -13,8 +13,8 @@ export type TDifficulty = 'beginner' | 'intermediate' | 'expert' | 'custom';
 
 export interface IDifficulty {
   difficulty: TDifficulty;
-  mine?: number;
-  row?: number;
-  column?: number;
+  mine: number;
+  row: number;
+  column: number;
 }
 // TODO: notSelect 변수명 수정?

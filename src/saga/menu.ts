@@ -1,27 +1,17 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { put } from 'redux-saga/effects';
 import * as menuStore from '@/store/menu';
+import * as gameStore from '@/store/game';
 import { IDifficulty } from '@/types/game';
-import { DIFFICULTY } from '@/constants';
+import { makeBasicGraph, makeGraph } from '@/utils';
 
 function* changeDifficultySaga(action: PayloadAction<IDifficulty>): Generator {
-  const { difficulty } = action.payload;
-  let { mine, row, column } = action.payload;
-  switch (difficulty) {
-    case 'beginner':
-      [mine, row, column] = [DIFFICULTY.beginner.mine, DIFFICULTY.beginner.row, DIFFICULTY.beginner.column];
-      break;
-    case 'intermediate':
-      [mine, row, column] = [DIFFICULTY.intermediate.mine, DIFFICULTY.intermediate.row, DIFFICULTY.intermediate.column];
-      break;
-    case 'expert':
-      [mine, row, column] = [DIFFICULTY.expert.mine, DIFFICULTY.expert.row, DIFFICULTY.expert.column];
-      break;
-    default:
-      break;
-  }
-
+  const { difficulty, mine, row, column } = action.payload;
   yield put({ type: menuStore.changeDifficultySuccess.type, payload: { difficulty, mine, row, column } });
+
+  const graph = makeGraph({ mine, row, column });
+  const currentGraph = makeBasicGraph(row, column, 'notSelect');
+  yield put({ type: gameStore.makeGraphSuccess.type, payload: { mine, graph, currentGraph } });
 }
 
 export { changeDifficultySaga };
