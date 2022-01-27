@@ -21,8 +21,8 @@ const GameContainer: React.FC = () => {
     }),
   );
 
-  const left = useRef(false);
-  const right = useRef(false);
+  const leftCliking = useRef(false);
+  const rightCliking = useRef(false);
 
   const onClickLeftHandler = useCallback(
     (row: number, column: number) => {
@@ -48,11 +48,11 @@ const GameContainer: React.FC = () => {
   const onMouseDown = useCallback(
     (e: React.MouseEvent, row: number, column: number) => {
       if (e.button === LEFT_BUTTONS) {
-        if (right.current) onClickSyncHandler(row, column);
-        left.current = true;
+        if (rightCliking.current) onClickSyncHandler(row, column);
+        leftCliking.current = true;
       } else if (e.button === RIGHT_BUTTONS) {
-        if (left.current) onClickSyncHandler(row, column);
-        right.current = true;
+        if (leftCliking.current) onClickSyncHandler(row, column);
+        rightCliking.current = true;
       }
     },
     [onClickSyncHandler],
@@ -61,11 +61,11 @@ const GameContainer: React.FC = () => {
   const onMouseUp = useCallback(
     (e: React.MouseEvent, row: number, column: number) => {
       if (e.button === LEFT_BUTTONS) {
-        if (!right.current) onClickLeftHandler(row, column);
-        left.current = false;
+        if (!rightCliking.current) onClickLeftHandler(row, column);
+        leftCliking.current = false;
       } else if (e.button === RIGHT_BUTTONS) {
-        if (!left.current) onClickRightHandler(row, column);
-        right.current = false;
+        if (!leftCliking.current) onClickRightHandler(row, column);
+        rightCliking.current = false;
       }
     },
     [onClickLeftHandler, onClickRightHandler],
