@@ -1,13 +1,13 @@
 import { IGameInitOption, TGraph } from '@/types/game';
 
-const makeBasicGraph = (row: number, column: number, value: null | 'notSelect') => {
+const makeBasicGraph = (row: number, column: number, value: null | 'notSelect'): TGraph => {
   const graph = Array(row)
     .fill(null)
     .map(() => Array(column).fill(value));
   return graph;
 };
 
-const make1DMineArr = (row: number, column: number, mine: number) => {
+const make1DMineArr = (row: number, column: number, mine: number): number[] => {
   const mineArr: number[] = [];
   for (let i = 0; i < mine; i++) {
     const randomNumber = Math.floor(Math.random() * row * column);
@@ -20,7 +20,7 @@ const make1DMineArr = (row: number, column: number, mine: number) => {
   return mineArr;
 };
 
-const make2DMineArr = (row: number, column: number, preMineArr: number[]) => {
+const make2DMineArr = (row: number, column: number, preMineArr: number[]): number[][] => {
   const mineArr: number[][] = preMineArr.map((mine) => {
     const mineRow = Math.floor(mine / column);
     const mineColumn = mine % row;
@@ -29,7 +29,7 @@ const make2DMineArr = (row: number, column: number, preMineArr: number[]) => {
   return mineArr;
 };
 
-const makeMineArr = (row: number, column: number, mine: number) => {
+const makeMineArr = (row: number, column: number, mine: number): number[][] => {
   const preMineArr = make1DMineArr(row, column, mine);
   const mineArr = make2DMineArr(row, column, preMineArr);
   return mineArr;
@@ -52,7 +52,7 @@ const calcAroundMine = (
   return aroundMine;
 };
 
-const makeGraph = (option: IGameInitOption) => {
+const makeGraph = (option: IGameInitOption): TGraph => {
   const { row, column, mine } = option;
 
   const graph: TGraph = makeBasicGraph(row, column, null);
