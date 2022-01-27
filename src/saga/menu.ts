@@ -11,7 +11,7 @@ function* changeDifficultySaga(action: PayloadAction<IDifficulty>): Generator {
 
   const graph = makeGraph({ mine, row, column });
   const currentGraph = makeBasicGraph(row, column, 'notSelect');
-  yield put({ type: gameStore.makeGraphSuccess.type, payload: { mine, graph, currentGraph } });
+  yield put({ type: gameStore.initGraphSuccess.type, payload: { mine, graph, currentGraph } });
 }
 
 export { changeDifficultySaga };

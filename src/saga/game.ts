@@ -5,11 +5,11 @@ import { RootState } from '@/store';
 import { IGameInitOption, ILocation } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils';
 
-function* makeGraphSaga(action: PayloadAction<IGameInitOption>): Generator {
+function* initGraphSaga(action: PayloadAction<IGameInitOption>): Generator {
   const { mine, row, column } = action.payload;
   const graph = makeGraph({ mine, row, column });
   const currentGraph = makeBasicGraph(row, column, 'notSelect');
-  yield put({ type: gameStore.makeGraphSuccess.type, payload: { mine, graph, currentGraph } });
+  yield put({ type: gameStore.initGraphSuccess.type, payload: { mine, graph, currentGraph } });
 }
 
 function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
@@ -27,4 +27,4 @@ function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
   // TODO
 }
 
-export { makeGraphSaga, leftClickSaga, rightClickSaga, syncClickSaga };
+export { initGraphSaga, leftClickSaga, rightClickSaga, syncClickSaga };
