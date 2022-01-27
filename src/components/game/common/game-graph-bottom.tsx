@@ -11,7 +11,7 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
-const GameBottom: React.FC<IProps> = ({ index }) => {
+const GameGraphBottom: React.FC<IProps> = ({ index }) => {
   const indexArr = Array(index).fill(null);
   return (
     <Row>
@@ -24,4 +24,4 @@ const GameBottom: React.FC<IProps> = ({ index }) => {
   );
 };
 
-export default React.memo(GameBottom);
+export default React.memo(GameGraphBottom);
