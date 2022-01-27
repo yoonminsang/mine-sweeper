@@ -3,13 +3,13 @@ import { takeLatest } from 'redux-saga/effects';
 import { initGraphSaga, leftClickSaga, rightClickSaga, syncClickSaga } from '@/saga/game';
 import { TCurrentGraph, TGraph } from '@/types/game';
 import { DIFFICULTY } from '@/constants';
-import * as utils from '@/utils';
+import { makeBasicGraph, makeGraph } from '@/utils';
 
 // graph
-// mine, number, null
+// 'mine' | number;
 
 // currentGraph
-// notSelect, mine, number, null, question
+// 'notSelect' | 'bombDeath' | 'bombRevealed' | 'bombmIsFlagged' | number | 'flag' | 'question';
 
 interface IInitGraph {
   graph: TGraph;
@@ -32,8 +32,8 @@ interface StateProps {
 const { row, column, mine } = DIFFICULTY.beginner;
 
 const initialState: StateProps = {
-  graph: utils.makeGraph(DIFFICULTY.beginner),
-  currentGraph: utils.makeBasicGraph(row, column, 'notSelect'),
+  graph: makeGraph(DIFFICULTY.beginner),
+  currentGraph: makeBasicGraph(row, column, 'notSelect'),
   remainMine: mine,
   timer: 0,
   timerId: -1,
@@ -63,11 +63,11 @@ const slice = createSlice({
     },
     successGame: (state) => {
       state.isSuccess = true;
+      state.isEnd = true;
+      state.isProcess = false;
     },
     failGame: (state) => {
       state.isFail = true;
-    },
-    endGame: (state) => {
       state.isEnd = true;
       state.isProcess = false;
     },
@@ -85,7 +85,6 @@ const {
   startGame,
   successGame,
   failGame,
-  endGame,
 } = actions;
 
 function* gameSaga(): Generator {
@@ -106,6 +105,5 @@ export {
   startGame,
   successGame,
   failGame,
-  endGame,
   gameSaga,
 };

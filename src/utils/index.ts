@@ -1,6 +1,7 @@
 import { IGameInitOption, TGraph } from '@/types/game';
 
-const makeBasicGraph = (row: number, column: number, value: null | 'notSelect'): TGraph => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const makeBasicGraph = (row: number, column: number, value: 0 | 'notSelect'): any[][] => {
   const graph = Array(row)
     .fill(null)
     .map(() => Array(column).fill(value));
@@ -35,27 +36,20 @@ const makeMineArr = (row: number, column: number, mine: number): number[][] => {
   return mineArr;
 };
 
-const calcAroundMine = (
-  row: number,
-  column: number,
-  graph: TGraph,
-  graphRow: number,
-  graphColumn: number,
-): number | null => {
+const calcAroundMine = (row: number, column: number, graph: TGraph, graphRow: number, graphColumn: number): number => {
   let aroundMine = 0;
   for (let i = Math.max(0, graphRow - 1); i <= Math.min(row - 1, graphRow + 1); i++) {
     for (let j = Math.max(0, graphColumn - 1); j <= Math.min(column - 1, graphColumn + 1); j++) {
       if (graph[i][j] === 'mine') aroundMine += 1;
     }
   }
-  if (aroundMine === 0) return null;
   return aroundMine;
 };
 
 const makeGraph = (option: IGameInitOption): TGraph => {
   const { row, column, mine } = option;
 
-  const graph: TGraph = makeBasicGraph(row, column, null);
+  const graph: TGraph = makeBasicGraph(row, column, 0);
   const mineArr = makeMineArr(row, column, mine);
   mineArr.forEach(([mineRow, mineColumn]) => {
     graph[mineRow][mineColumn] = 'mine';
