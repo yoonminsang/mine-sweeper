@@ -68,7 +68,7 @@ textarea {
 }
 button {
   color: inherit;
-  cursor: pointer;
+  border:0;
 }
 html{
   overflow-y: scroll;
@@ -90,6 +90,10 @@ html{
 }
 div{
   word-break: break-all;
+}
+body{
+  background:#C0C0C0;
+  margin: 20px;
 }
 `;
 
