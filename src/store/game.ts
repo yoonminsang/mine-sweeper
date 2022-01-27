@@ -11,9 +11,10 @@ import * as utils from '@/utils';
 // currentGraph
 // notSelect, mine, number, null, question
 
-interface IGraph {
+interface IMakeGraph {
   graph: TGraph;
   currentGraph: TCurrentGraph;
+  mine: number;
 }
 
 interface StateProps {
@@ -47,9 +48,9 @@ const slice = createSlice({
   initialState,
   reducers: {
     makeGraph: (state) => state,
-    makeGraphSuccess: (state, action: PayloadAction<IGraph>) => {
-      state.graph = action.payload.graph;
-      state.currentGraph = action.payload.currentGraph;
+    makeGraphSuccess: (state, action: PayloadAction<IMakeGraph>) => {
+      const { graph, currentGraph, mine } = action.payload;
+      state = { ...initialState, graph, currentGraph, remainMine: mine };
     },
     leftClick: (state) => state,
     rightClick: (state) => state,
