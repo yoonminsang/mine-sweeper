@@ -22,6 +22,14 @@ const store = configureStore({
 
 sagaMiddleware.run(rootSaga);
 
+const init = () => {
+  window.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+};
+
+init();
+
 ReactDom.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
