@@ -4,6 +4,10 @@ import { TCurrentGraphCell } from '@/types/game';
 
 interface IProps {
   currentGraphCell: TCurrentGraphCell;
+  onMouseDown: (e: React.MouseEvent, row: number, column: number) => void;
+  onMouseUp: (e: React.MouseEvent, row: number, column: number) => void;
+  row: number;
+  column: number;
 }
 
 const Button = styled.a`
@@ -16,7 +20,7 @@ const Img = styled.img`
   height: 100%;
 `;
 
-const GameCell: React.FC<IProps> = ({ currentGraphCell }) => {
+const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, row, column }) => {
   let src = 'http://freeminesweeper.org/images/';
   switch (currentGraphCell) {
     case 'notSelect':
@@ -35,7 +39,7 @@ const GameCell: React.FC<IProps> = ({ currentGraphCell }) => {
       src += `open${currentGraphCell}.gif`;
   }
   return (
-    <Button>
+    <Button onMouseDown={(e) => onMouseDown(e, row, column)} onMouseUp={(e) => onMouseUp(e, row, column)}>
       <Img src={src} alt="img" />
     </Button>
   );

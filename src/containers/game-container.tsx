@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Game from '@/components/game';
 import { RootState } from '@/store';
 import { leftClick, rightClick, syncClick } from '@/store/game';
+
+const [LEFT_BUTTONS, RIGHT_BUTTONS] = [0, 2];
 
 const GameContainer: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,6 +20,9 @@ const GameContainer: React.FC = () => {
       isEnd: game.isEnd,
     }),
   );
+
+  const left = useRef(false);
+  const right = useRef(false);
 
   const onClickLeftHandler = useCallback(
     (row: number, column: number) => {
@@ -40,7 +45,33 @@ const GameContainer: React.FC = () => {
     [dispatch],
   );
 
-  return <Game currentGraph={currentGraph} />;
+  const onMouseDown = useCallback(
+    (e: React.MouseEvent, row: number, column: number) => {
+      if (e.button === LEFT_BUTTONS) {
+        if (right.current) onClickSyncHandler(row, column);
+        left.current = true;
+      } else if (e.button === RIGHT_BUTTONS) {
+        if (left.current) onClickSyncHandler(row, column);
+        right.current = true;
+      }
+    },
+    [onClickSyncHandler],
+  );
+
+  const onMouseUp = useCallback(
+    (e: React.MouseEvent, row: number, column: number) => {
+      if (e.button === LEFT_BUTTONS) {
+        if (!right.current) onClickLeftHandler(row, column);
+        left.current = false;
+      } else if (e.button === RIGHT_BUTTONS) {
+        if (!left.current) onClickRightHandler(row, column);
+        right.current = false;
+      }
+    },
+    [onClickLeftHandler, onClickRightHandler],
+  );
+
+  return <Game currentGraph={currentGraph} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />;
 };
 
 export default GameContainer;

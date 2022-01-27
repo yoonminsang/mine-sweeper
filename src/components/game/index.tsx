@@ -6,15 +6,17 @@ import GameHeader from './game-header';
 
 interface IProps {
   currentGraph: TCurrentGraph;
+  onMouseDown: (e: React.MouseEvent, row: number, column: number) => void;
+  onMouseUp: (e: React.MouseEvent, row: number, column: number) => void;
 }
 
 const Wrapper = styled.div``;
 
-const Game: React.FC<IProps> = ({ currentGraph }) => {
+const Game: React.FC<IProps> = ({ currentGraph, onMouseUp, onMouseDown }) => {
   return (
     <Wrapper>
       <GameHeader />
-      <GameContent currentGraph={currentGraph} />
+      <GameContent currentGraph={currentGraph} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />
     </Wrapper>
   );
 };
