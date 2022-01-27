@@ -1,11 +1,16 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
+import { TFace } from '@/types/game';
 import GameGraphTop from '../common/game-graph-top';
 import GameFace from './game-face';
 import GameTimer from './game-timer';
 
 interface IProps {
   index: number;
+  remainMine: number;
+  timer: number;
+  isSuccess: boolean;
+  isFail: boolean;
 }
 
 const Wrapper = styled.div`
@@ -24,23 +29,35 @@ const Button = styled.a`
   display: flex;
 `;
 
-const GameHeader: React.FC<IProps> = ({ index }) => {
+const Img = styled.img`
+  width: 10px;
+  height: 26px;
+`;
+
+const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isFail }) => {
+  let face: TFace = 'smile';
+  if (isSuccess) face = 'win';
+  else if (isFail) face = 'dead';
   const margin = useMemo(() => (16 * index - (13 * 6 + 26)) / 2, [index]);
+  const remainMineArr = remainMine.toString().split('');
+  while (remainMineArr.length < 3) remainMineArr.unshift('0');
+  const timerArr = timer.toString().split('');
+  while (timerArr.length < 3) timerArr.unshift('0');
   return (
     <Wrapper>
       <GameGraphTop index={index} />
       <Row>
-        <img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" width={10} height={26} />
-        <GameTimer number={0} />
-        <GameTimer number={0} />
-        <GameTimer number={0} />
+        <Img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" />
+        <GameTimer number={remainMineArr[0]} />
+        <GameTimer number={remainMineArr[1]} />
+        <GameTimer number={remainMineArr[2]} />
         <Button>
-          <GameFace face="smile" margin={margin} />
+          <GameFace face={face} margin={margin} />
         </Button>
-        <GameTimer number={0} />
-        <GameTimer number={0} />
-        <GameTimer number={0} />
-        <img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" width={10} height={26} />
+        <GameTimer number={timerArr[0]} />
+        <GameTimer number={timerArr[1]} />
+        <GameTimer number={timerArr[2]} />
+        <Img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" />
       </Row>
     </Wrapper>
   );

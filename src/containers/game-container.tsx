@@ -8,18 +8,13 @@ const [LEFT_BUTTONS, RIGHT_BUTTONS] = [0, 2];
 
 const GameContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const { currentGraph, remainMine, timer, timerId, isProcess, isSuccess, isFail, isEnd } = useSelector(
-    ({ game }: RootState) => ({
-      currentGraph: game.currentGraph,
-      remainMine: game.remainMine,
-      timer: game.timer,
-      timerId: game.timerId,
-      isProcess: game.isProcess,
-      isSuccess: game.isSuccess,
-      isFail: game.isFail,
-      isEnd: game.isEnd,
-    }),
-  );
+  const { currentGraph, remainMine, timer, isSuccess, isFail } = useSelector(({ game }: RootState) => ({
+    currentGraph: game.currentGraph,
+    remainMine: game.remainMine,
+    timer: game.timer,
+    isSuccess: game.isSuccess,
+    isFail: game.isFail,
+  }));
 
   const leftCliking = useRef(false);
   const rightCliking = useRef(false);
@@ -71,7 +66,17 @@ const GameContainer: React.FC = () => {
     [onClickLeftHandler, onClickRightHandler],
   );
 
-  return <Game currentGraph={currentGraph} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />;
+  return (
+    <Game
+      currentGraph={currentGraph}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      remainMine={remainMine}
+      timer={timer}
+      isSuccess={isSuccess}
+      isFail={isFail}
+    />
+  );
 };
 
 export default GameContainer;
