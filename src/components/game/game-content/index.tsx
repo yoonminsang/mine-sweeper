@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { TCurrentGraph } from '@/types/game';
 import GameCell from './game-cell';
-import GameTop from './game-top';
-import GameBottom from './game-bottom';
+import GameGraphBottom from '../common/game-graph-bottom';
+import GameGraphCenter from '../common/game-graph-center';
 
 interface IProps {
   currentGraph: TCurrentGraph;
@@ -25,7 +25,7 @@ const Row = styled.div`
 const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp }) => {
   return (
     <Wrapper>
-      <GameTop index={currentGraph[0].length} />
+      <GameGraphCenter index={currentGraph[0].length} />
       {currentGraph.map((currentGraphRow, i) => {
         return (
           <Row key={i}>
@@ -46,7 +46,7 @@ const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp })
           </Row>
         );
       })}
-      <GameBottom index={currentGraph[0].length} />
+      <GameGraphBottom index={currentGraph[0].length} />
     </Wrapper>
   );
 };
