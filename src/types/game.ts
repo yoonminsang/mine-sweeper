@@ -21,3 +21,4 @@ export type TCurrentGraphCell =
   | 'question';
 export type TCurrentGraph = TCurrentGraphCell[][];
 export type TDifficulty = 'beginner' | 'intermediate' | 'expert' | 'custom';
+export type TFace = 'smile' | 'dead' | 'win';

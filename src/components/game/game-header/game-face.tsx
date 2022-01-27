@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { TFace } from '@/types/game';
 
 interface IProps {
-  face: 'smile' | 'dead' | 'win';
+  face: TFace;
   margin: number;
 }
 

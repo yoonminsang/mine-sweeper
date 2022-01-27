@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 interface IProps {
-  number: number;
+  number: string;
 }
 
 const Img = styled.img`
