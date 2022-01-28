@@ -11,6 +11,7 @@ interface IProps {
   timer: number;
   isSuccess: boolean;
   isFail: boolean;
+  initGameHandler: () => void;
 }
 
 const Wrapper = styled.div`
@@ -34,11 +35,12 @@ const Img = styled.img`
   height: 26px;
 `;
 
-const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isFail }) => {
+const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isFail, initGameHandler }) => {
   const [face, setFace] = useState<TFace>('smile');
   useEffect(() => {
     if (isSuccess) setFace('win');
-    if (isFail) setFace('dead');
+    else if (isFail) setFace('dead');
+    else setFace('smile');
   }, [isSuccess, isFail]);
 
   const margin = useMemo(() => (16 * index - (13 * 6 + 26)) / 2, [index]);
@@ -55,7 +57,7 @@ const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isF
         <GameTimer number={remainMineArr[0]} />
         <GameTimer number={remainMineArr[1]} />
         <GameTimer number={remainMineArr[2]} />
-        <Button>
+        <Button onClick={initGameHandler}>
           <GameFace face={face} margin={margin} />
         </Button>
         <GameTimer number={timerArr[0]} />
