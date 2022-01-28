@@ -45,7 +45,8 @@ const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isF
 
   const margin = useMemo(() => (16 * index - (13 * 6 + 26)) / 2, [index]);
   const remainMineArr = remainMine.toString().split('');
-  while (remainMineArr.length < 3) remainMineArr.unshift('0');
+  if (remainMine < 0) while (remainMineArr.length < 3) remainMineArr.splice(1, 0, '0');
+  else while (remainMineArr.length < 3) remainMineArr.unshift('0');
   const timerArr = timer.toString().split('');
   while (timerArr.length < 3) timerArr.unshift('0');
 
