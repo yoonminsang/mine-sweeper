@@ -38,8 +38,8 @@ const Img = styled.img`
 const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isFail, initGameHandler }) => {
   const [face, setFace] = useState<TFace>('smile');
   useEffect(() => {
-    if (isSuccess) setFace('win');
-    else if (isFail) setFace('dead');
+    if (isFail) setFace('dead');
+    else if (isSuccess) setFace('win');
     else setFace('smile');
   }, [isSuccess, isFail]);
 
