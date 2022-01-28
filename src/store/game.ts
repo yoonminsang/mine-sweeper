@@ -3,7 +3,7 @@ import { takeLatest } from 'redux-saga/effects';
 import { initGameSaga, leftClickSaga, rightClickSaga, syncClickSaga } from '@/saga/game';
 import { TCurrentGraph, TGraph } from '@/types/game';
 import { DIFFICULTY } from '@/constants';
-import { makeBasicGraph, makeGraph } from '@/utils';
+import { makeBasicGraph, makeGraph } from '@/utils/graph';
 
 // graph
 // 'mine' | number;

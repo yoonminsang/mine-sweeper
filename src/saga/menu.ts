@@ -3,7 +3,7 @@ import { put } from 'redux-saga/effects';
 import * as menuStore from '@/store/menu';
 import * as gameStore from '@/store/game';
 import { IDifficulty } from '@/types/game';
-import { makeBasicGraph, makeGraph } from '@/utils';
+import { makeBasicGraph, makeGraph } from '@/utils/graph';
 
 function* changeDifficultySaga(action: PayloadAction<IDifficulty>): Generator {
   const { difficulty, mine, row, column } = action.payload;

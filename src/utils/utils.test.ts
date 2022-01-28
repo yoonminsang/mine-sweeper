@@ -1,6 +1,6 @@
 import { DIFFICULTY } from '@/constants';
 import { TGraph } from '@/types/game';
-import { makeGraph } from '.';
+import { makeGraph } from './graph';
 
 const checkMineNumber = (graph: TGraph) => {
   let mineNumber = 0;
