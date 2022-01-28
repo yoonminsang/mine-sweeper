@@ -17,6 +17,11 @@ interface IInitGame {
   mine: number;
 }
 
+interface IClickSuccess {
+  currentGraph: TCurrentGraph;
+  remainMine?: number;
+}
+
 interface StateProps {
   graph: TGraph;
   currentGraph: TCurrentGraph;
@@ -55,8 +60,10 @@ const slice = createSlice({
     leftClick: (state) => state,
     rightClick: (state) => state,
     syncClick: (state) => state,
-    clickSuccess: (state, action: PayloadAction<TCurrentGraph>) => {
-      state.currentGraph = action.payload;
+    clickSuccess: (state, action: PayloadAction<IClickSuccess>) => {
+      const { currentGraph, remainMine } = action.payload;
+      state.currentGraph = currentGraph;
+      if (remainMine) state.remainMine = remainMine;
     },
     startGame: (state) => {
       state.isProcess = true;

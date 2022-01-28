@@ -42,11 +42,39 @@ function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
   }
 
   if (isSuccess(nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
-  yield put({ type: gameStore.clickSuccess.type, payload: nextCurrentGraph });
+  yield put({ type: gameStore.clickSuccess.type, payload: { currentGraph: nextCurrentGraph } });
 }
 
 function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
-  // TODO
+  const {
+    game: { currentGraph, isEnd, remainMine },
+  } = (yield select()) as RootState;
+  if (isEnd) return;
+
+  const { row, column } = action.payload;
+  const nextCurrentGraph = currentGraph.map((v) => v.slice()); // 2차원 배열 복사
+
+  const currentGraphCell = nextCurrentGraph[row][column];
+  let nextRemainMine = remainMine;
+  switch (currentGraphCell) {
+    case 'notSelect':
+      nextCurrentGraph[row][column] = 'flag';
+      nextRemainMine -= 1;
+      break;
+    case 'flag':
+      nextCurrentGraph[row][column] = 'question';
+      nextRemainMine += 1;
+      break;
+    case 'question':
+      nextCurrentGraph[row][column] = 'notSelect';
+      break;
+    default:
+      break;
+  }
+  yield put({
+    type: gameStore.clickSuccess.type,
+    payload: { currentGraph: nextCurrentGraph, remainMine: nextRemainMine },
+  });
 }
 
 function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
