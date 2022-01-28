@@ -63,7 +63,7 @@ const slice = createSlice({
     clickSuccess: (state, action: PayloadAction<IClickSuccess>) => {
       const { currentGraph, remainMine } = action.payload;
       state.currentGraph = currentGraph;
-      if (remainMine) state.remainMine = remainMine;
+      if (typeof remainMine === 'number') state.remainMine = remainMine;
     },
     startGame: (state) => {
       state.isProcess = true;
