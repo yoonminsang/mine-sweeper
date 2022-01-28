@@ -1,19 +1,15 @@
 import React, { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Game from '@/components/game';
 import { RootState } from '@/store';
 import { leftClick, rightClick, syncClick } from '@/store/game';
+import GameContent from '@/components/game/game-content';
 
 const [LEFT_BUTTONS, RIGHT_BUTTONS] = [0, 2];
 
-const GameContainer: React.FC = () => {
+const GameContentContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const { currentGraph, remainMine, timer, isSuccess, isFail } = useSelector(({ game }: RootState) => ({
+  const { currentGraph } = useSelector(({ game }: RootState) => ({
     currentGraph: game.currentGraph,
-    remainMine: game.remainMine,
-    timer: game.timer,
-    isSuccess: game.isSuccess,
-    isFail: game.isFail,
   }));
 
   const leftCliking = useRef(false);
@@ -66,17 +62,7 @@ const GameContainer: React.FC = () => {
     [onClickLeftHandler, onClickRightHandler],
   );
 
-  return (
-    <Game
-      currentGraph={currentGraph}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      remainMine={remainMine}
-      timer={timer}
-      isSuccess={isSuccess}
-      isFail={isFail}
-    />
-  );
+  return <GameContent currentGraph={currentGraph} onMouseDown={onMouseDown} onMouseUp={onMouseUp} />;
 };
 
-export default GameContainer;
+export default GameContentContainer;
