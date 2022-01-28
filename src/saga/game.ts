@@ -1,10 +1,17 @@
 import { PayloadAction } from '@reduxjs/toolkit';
-import { put, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
-import { ILocation } from '@/types/game';
+import { ILocation, TCurrentGraph, TGraph } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils/graph';
-import { checkPressSync, isSuccess, pressEmpty, pressMine } from '@/utils/game';
+import { chagneGraphWhenSuccess, checkPressSync, copy2DArray, isSuccess, pressEmpty, pressMine } from '@/utils/game';
+
+function* successSaga(graph: TGraph, nextCurrentGraph: TCurrentGraph, remainMine: number): Generator {
+  if (isSuccess(nextCurrentGraph, remainMine)) {
+    chagneGraphWhenSuccess(graph, nextCurrentGraph);
+    yield put({ type: gameStore.successGame.type });
+  }
+}
 
 function* initGameSaga(): Generator {
   const {
@@ -15,18 +22,7 @@ function* initGameSaga(): Generator {
   yield put({ type: gameStore.initGameSuccess.type, payload: { mine, graph, currentGraph } });
 }
 
-function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
-  const {
-    game: { graph, currentGraph, isProcess, isEnd, remainMine },
-  } = (yield select()) as RootState;
-
-  if (isEnd) return;
-  if (!isProcess) yield put({ type: gameStore.startGame.type });
-
-  const { row, column } = action.payload;
-  const nextCurrentGraph = currentGraph.map((v) => v.slice()); // 2차원 배열 복사
-  if (nextCurrentGraph[row][column] !== 'notSelect') return;
-
+function* leftClickSagaHelper(graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number): Generator {
   const graphCell = graph[row][column];
   switch (graphCell) {
     case 'mine':
@@ -40,41 +36,61 @@ function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
     default:
       nextCurrentGraph[row][column] = graphCell;
   }
-
-  if (isSuccess(graph, nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
-  yield put({ type: gameStore.clickSuccess.type, payload: { currentGraph: nextCurrentGraph } });
 }
 
-function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
+function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
   const {
-    game: { graph, currentGraph, isEnd, remainMine },
+    game: { graph, currentGraph, isProcess, isEnd, remainMine },
   } = (yield select()) as RootState;
-  if (isEnd) return;
-
   const { row, column } = action.payload;
-  const nextCurrentGraph = currentGraph.map((v) => v.slice()); // 2차원 배열 복사
 
+  if (isEnd || currentGraph[row][column] !== 'notSelect') return;
+
+  const nextCurrentGraph = copy2DArray(currentGraph);
+
+  yield call(leftClickSagaHelper, graph, nextCurrentGraph, row, column);
+  yield call(successSaga, graph, nextCurrentGraph, remainMine);
+  yield put({ type: gameStore.clickSuccess.type, payload: { currentGraph: nextCurrentGraph } });
+
+  if (!isProcess) {
+    yield put({ type: gameStore.startGame.type });
+  }
+}
+
+const rightClickSagaHelper = (nextCurrentGraph: TCurrentGraph, remainMine: number, row: number, column: number) => {
   const currentGraphCell = nextCurrentGraph[row][column];
-  let nextRemainMine = remainMine;
+  // eslint-disable-next-line default-case
   switch (currentGraphCell) {
     case 'notSelect':
       nextCurrentGraph[row][column] = 'flag';
-      nextRemainMine -= 1;
+      remainMine -= 1;
       break;
     case 'flag':
       nextCurrentGraph[row][column] = 'question';
-      nextRemainMine += 1;
+      remainMine += 1;
       break;
     case 'question':
       nextCurrentGraph[row][column] = 'notSelect';
       break;
-    default:
-      break;
   }
-  if (isSuccess(graph, nextCurrentGraph, nextRemainMine)) yield put({ type: gameStore.successGame.type });
+  return remainMine;
+};
+
+function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
+  const { game } = (yield select()) as RootState;
+  const { graph, currentGraph, isEnd } = game;
+  let { remainMine } = game;
+  const { row, column } = action.payload;
+
+  if (isEnd) return;
+
+  const nextCurrentGraph = copy2DArray(currentGraph);
+
+  remainMine = rightClickSagaHelper(nextCurrentGraph, remainMine, row, column);
+  yield call(successSaga, graph, nextCurrentGraph, remainMine);
   yield put({
     type: gameStore.clickSuccess.type,
-    payload: { currentGraph: nextCurrentGraph, remainMine: nextRemainMine },
+    payload: { currentGraph: nextCurrentGraph, remainMine },
   });
 }
 
@@ -85,10 +101,10 @@ function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
   if (isEnd) return;
 
   const { row, column } = action.payload;
-  const nextCurrentGraph = currentGraph.map((v) => v.slice()); // 2차원 배열 복사
+  const nextCurrentGraph = copy2DArray(currentGraph);
   checkPressSync(graph, nextCurrentGraph, row, column);
 
-  if (isSuccess(graph, nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
+  yield call(successSaga, graph, nextCurrentGraph, remainMine);
   yield put({
     type: gameStore.clickSuccess.type,
     payload: { currentGraph: nextCurrentGraph },
