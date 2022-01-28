@@ -93,7 +93,6 @@ div{
 }
 body{
   background:#C0C0C0;
-  margin: 20px;
 }
 `;
 
