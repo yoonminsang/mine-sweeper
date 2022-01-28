@@ -41,9 +41,6 @@ const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, 
     case 'question':
       src += 'bombquestion.gif';
       break;
-    case null:
-      src += `open0.gif`;
-      break;
     default:
       src += `open${currentGraphCell}.gif`;
   }
