@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { takeLatest } from 'redux-saga/effects';
-import { initGraphSaga, leftClickSaga, rightClickSaga, syncClickSaga } from '@/saga/game';
+import { initGameSaga, leftClickSaga, rightClickSaga, syncClickSaga } from '@/saga/game';
 import { TCurrentGraph, TGraph } from '@/types/game';
 import { DIFFICULTY } from '@/constants';
 import { makeBasicGraph, makeGraph } from '@/utils';
@@ -11,7 +11,7 @@ import { makeBasicGraph, makeGraph } from '@/utils';
 // currentGraph
 // 'notSelect' | 'bombDeath' | 'bombRevealed' | 'bombmIsFlagged' | number | 'flag' | 'question';
 
-interface IInitGraph {
+interface IInitGame {
   graph: TGraph;
   currentGraph: TCurrentGraph;
   mine: number;
@@ -47,10 +47,10 @@ const slice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    initGraph: (state) => state,
-    initGraphSuccess: (state, action: PayloadAction<IInitGraph>) => {
+    initGame: (state) => state,
+    initGameSuccess: (state, action: PayloadAction<IInitGame>) => {
       const { graph, currentGraph, mine } = action.payload;
-      state = { ...initialState, graph, currentGraph, remainMine: mine };
+      return { ...initialState, graph, currentGraph, remainMine: mine };
     },
     leftClick: (state) => state,
     rightClick: (state) => state,
@@ -75,20 +75,11 @@ const slice = createSlice({
 });
 
 const { actions, reducer: gameReducer } = slice;
-const {
-  initGraph,
-  initGraphSuccess,
-  leftClick,
-  rightClick,
-  syncClick,
-  clickSuccess,
-  startGame,
-  successGame,
-  failGame,
-} = actions;
+const { initGame, initGameSuccess, leftClick, rightClick, syncClick, clickSuccess, startGame, successGame, failGame } =
+  actions;
 
 function* gameSaga(): Generator {
-  yield takeLatest(initGraph.type, initGraphSaga);
+  yield takeLatest(initGame.type, initGameSaga);
   yield takeLatest(leftClick.type, leftClickSaga);
   yield takeLatest(rightClick.type, rightClickSaga);
   yield takeLatest(syncClick.type, syncClickSaga);
@@ -96,8 +87,8 @@ function* gameSaga(): Generator {
 
 export {
   gameReducer,
-  initGraph,
-  initGraphSuccess,
+  initGame,
+  initGameSuccess,
   leftClick,
   rightClick,
   syncClick,

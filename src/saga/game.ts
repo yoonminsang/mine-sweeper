@@ -43,13 +43,13 @@ const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number,
   changeGraph(row, column);
 };
 
-function* initGraphSaga(): Generator {
+function* initGameSaga(): Generator {
   const {
     menu: { mine, row, column },
   } = (yield select()) as RootState;
   const graph = makeGraph({ mine, row, column });
   const currentGraph = makeBasicGraph(row, column, 'notSelect');
-  yield put({ type: gameStore.initGraphSuccess.type, payload: { mine, graph, currentGraph } });
+  yield put({ type: gameStore.initGameSuccess.type, payload: { mine, graph, currentGraph } });
 }
 
 function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
@@ -88,4 +88,4 @@ function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
   // TODO
 }
 
-export { initGraphSaga, leftClickSaga, rightClickSaga, syncClickSaga };
+export { initGameSaga, leftClickSaga, rightClickSaga, syncClickSaga };
