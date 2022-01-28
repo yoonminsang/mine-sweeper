@@ -4,7 +4,7 @@ import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
 import { ILocation, TCurrentGraph, TGraph } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils/graph';
-import { chagneGraphWhenSuccess, checkPressSync, copy2DArray, isSuccess, pressEmpty, pressMine } from '@/utils/game';
+import { chagneGraphWhenSuccess, pressSync, copy2DArray, isSuccess, pressEmpty, pressMine } from '@/utils/game';
 
 function* successSaga(graph: TGraph, nextCurrentGraph: TCurrentGraph, remainMine: number): Generator {
   if (isSuccess(nextCurrentGraph, remainMine)) {
@@ -102,7 +102,7 @@ function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
 
   const { row, column } = action.payload;
   const nextCurrentGraph = copy2DArray(currentGraph);
-  checkPressSync(graph, nextCurrentGraph, row, column);
+  pressSync(graph, nextCurrentGraph, row, column);
 
   yield call(successSaga, graph, nextCurrentGraph, remainMine);
   yield put({

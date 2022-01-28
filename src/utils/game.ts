@@ -67,7 +67,7 @@ const chagneGraphWhenSuccess = (graph: TGraph, nextCurrentGraph: TCurrentGraph) 
   }
 };
 
-const checkPressSyncHelper = (currentGraph: TCurrentGraph, row: number, column: number) => {
+const pressSyncHelper = (currentGraph: TCurrentGraph, row: number, column: number) => {
   const [graphRow, graphColumn] = [currentGraph.length, currentGraph[0].length];
   let count = 0;
   const locationArr: number[][] = [];
@@ -83,10 +83,10 @@ const checkPressSyncHelper = (currentGraph: TCurrentGraph, row: number, column: 
   return { count, locationArr };
 };
 
-const checkPressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
+const pressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
   const currentGraphValue = currentGraph[row][column];
   if (!(typeof currentGraphValue === 'number' && currentGraphValue > 0)) return;
-  const { count, locationArr } = checkPressSyncHelper(currentGraph, row, column);
+  const { count, locationArr } = pressSyncHelper(currentGraph, row, column);
 
   if (count === currentGraphValue) {
     locationArr.forEach(([row, column]) => {
@@ -96,8 +96,9 @@ const checkPressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number,
   }
 };
 
-const copy2DArray = (arr: TCurrentGraph): TCurrentGraph => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const copy2DArray = (arr: any[][]): any[][] => {
   return arr.map((v) => v.slice());
 };
 
-export { pressMine, pressEmpty, isSuccess, chagneGraphWhenSuccess, checkPressSync, copy2DArray };
+export { pressMine, pressEmpty, isSuccess, chagneGraphWhenSuccess, pressSync, copy2DArray };
