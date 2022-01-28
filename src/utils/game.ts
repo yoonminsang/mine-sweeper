@@ -1,8 +1,9 @@
 import { TCurrentGraph, TGraph } from '@/types/game';
 
 const pressMine = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
-  for (let i = 0; i < graph.length; i++) {
-    for (let j = 0; j < graph[0].length; j++) {
+  const [graphRow, graphColumn] = [graph.length, graph[0].length];
+  for (let i = 0; i < graphRow; i++) {
+    for (let j = 0; j < graphColumn; j++) {
       if (typeof nextCurrentGraph[i][j] === 'number') continue;
       if (nextCurrentGraph[i][j] === 'flag') {
         if (graph[i][j] !== 'mine') {
@@ -19,8 +20,7 @@ const pressMine = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, 
 };
 
 const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
-  const graphRow = graph.length;
-  const graphColumn = graph[0].length;
+  const [graphRow, graphColumn] = [graph.length, graph[0].length];
   const visit = Array(graphRow)
     .fill(null)
     .map(() => Array(graphColumn).fill(false));
@@ -50,9 +50,44 @@ const calc2DIncludeCount = (nextCurrentGraph: TCurrentGraph, value: string): num
   return count;
 };
 
-const isSuccess = (nextCurrentGraph: TCurrentGraph, remainMine: number): boolean => {
+const isSuccess = (graph: TGraph, nextCurrentGraph: TCurrentGraph, remainMine: number): boolean => {
   const notSelectCount = calc2DIncludeCount(nextCurrentGraph, 'notSelect');
-  return remainMine === notSelectCount;
+  const [graphRow, graphColumn] = [graph.length, graph[0].length];
+  if (remainMine === notSelectCount) {
+    for (let i = 0; i < graphRow; i++) {
+      for (let j = 0; j < graphColumn; j++) {
+        if (nextCurrentGraph[i][j] === 'notSelect') {
+          if (graph[i][j] === 'mine') nextCurrentGraph[i][j] = 'flag';
+          else nextCurrentGraph[i][j] = graph[i][j] as number;
+        }
+      }
+    }
+    return true;
+  }
+  return false;
 };
 
-export { pressMine, pressEmpty, isSuccess };
+const checkPressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
+  const currentGraphValue = currentGraph[row][column];
+  if (!(typeof currentGraphValue === 'number' && currentGraphValue > 0)) return;
+  const [graphRow, graphColumn] = [currentGraph.length, currentGraph[0].length];
+  let count = 0;
+  const locationArr: number[][] = [];
+  for (let i = Math.max(0, row - 1); i <= Math.min(graphRow - 1, row + 1); i++) {
+    for (let j = Math.max(0, column - 1); j <= Math.min(graphColumn - 1, column + 1); j++) {
+      if (currentGraph[i][j] === 'flag') {
+        count += 1;
+      } else if (currentGraph[i][j] === 'notSelect') {
+        locationArr.push([i, j]);
+      }
+    }
+  }
+  if (count === currentGraphValue) {
+    locationArr.forEach(([row, column]) => {
+      currentGraph[row][column] = graph[row][column] as number;
+      if (currentGraph[row][column] === 0) pressEmpty(graph, currentGraph, row, column);
+    });
+  }
+};
+
+export { pressMine, pressEmpty, isSuccess, checkPressSync };
