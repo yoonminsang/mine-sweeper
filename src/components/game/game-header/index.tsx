@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { TFace } from '@/types/game';
 import GameGraphTop from '../common/game-graph-top';
@@ -35,14 +35,18 @@ const Img = styled.img`
 `;
 
 const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isFail }) => {
-  let face: TFace = 'smile';
-  if (isSuccess) face = 'win';
-  else if (isFail) face = 'dead';
+  const [face, setFace] = useState<TFace>('smile');
+  useEffect(() => {
+    if (isSuccess) setFace('win');
+    if (isFail) setFace('dead');
+  }, [isSuccess, isFail]);
+
   const margin = useMemo(() => (16 * index - (13 * 6 + 26)) / 2, [index]);
   const remainMineArr = remainMine.toString().split('');
   while (remainMineArr.length < 3) remainMineArr.unshift('0');
   const timerArr = timer.toString().split('');
   while (timerArr.length < 3) timerArr.unshift('0');
+
   return (
     <Wrapper>
       <GameGraphTop index={index} />
