@@ -20,7 +20,6 @@ const calcAroundMine = (graph: TGraph, graphRow: number, graphColumn: number): n
       if (graph[i][j] === 'mine') aroundMine += 1;
     }
   }
-  if (aroundMine === 0) return null;
   return aroundMine;
 };
 
@@ -28,19 +27,19 @@ describe('util', () => {
   it('check the number of mines in the beginner graph ', () => {
     const graph = makeGraph(DIFFICULTY.beginner);
     const mineNumber = checkMineNumber(graph);
-    expect(mineNumber).toBe(10);
+    expect(mineNumber).toBe(DIFFICULTY.beginner.mine);
   });
 
   it('check the number of mines in the intermediate graph ', () => {
     const graph = makeGraph(DIFFICULTY.intermediate);
     const mineNumber = checkMineNumber(graph);
-    expect(mineNumber).toBe(40);
+    expect(mineNumber).toBe(DIFFICULTY.intermediate.mine);
   });
 
   it('check the number of mines in the expert graph ', () => {
     const graph = makeGraph(DIFFICULTY.expert);
     const mineNumber = checkMineNumber(graph);
-    expect(mineNumber).toBe(99);
+    expect(mineNumber).toBe(DIFFICULTY.expert.mine);
   });
 
   it('check the number of mines near the beginner graph', () => {
