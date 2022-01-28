@@ -2,46 +2,9 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { put, select } from 'redux-saga/effects';
 import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
-import { ILocation, TCurrentGraph, TGraph } from '@/types/game';
-import { makeBasicGraph, makeGraph } from '@/utils';
-
-const pressMine = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
-  for (let i = 0; i < graph.length; i++) {
-    for (let j = 0; j < graph[0].length; j++) {
-      if (typeof nextCurrentGraph[i][j] === 'number') continue;
-      if (nextCurrentGraph[i][j] === 'flag') {
-        if (graph[i][j] !== 'mine') {
-          nextCurrentGraph[i][j] = 'bombmIsFlagged';
-          continue;
-        }
-      } else if (graph[i][j] === 'mine') {
-        nextCurrentGraph[i][j] = 'bombRevealed';
-        continue;
-      }
-    }
-  }
-  nextCurrentGraph[row][column] = 'bombDeath';
-};
-
-const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
-  const graphRow = graph.length;
-  const graphColumn = graph[0].length;
-  const visit = Array(graphRow)
-    .fill(null)
-    .map(() => Array(graphColumn).fill(false));
-  const changeGraph = (row: number, column: number) => {
-    if (visit[row][column]) return;
-    visit[row][column] = true;
-    if (typeof graph[row][column] === 'number') nextCurrentGraph[row][column] = graph[row][column] as number;
-    if (graph[row][column] !== 0) return;
-    // 동서남북
-    if (column + 1 < graphColumn) changeGraph(row, column + 1);
-    if (column - 1 >= 0) changeGraph(row, column - 1);
-    if (row - 1 >= 0) changeGraph(row - 1, column);
-    if (row + 1 < graphRow) changeGraph(row + 1, column);
-  };
-  changeGraph(row, column);
-};
+import { ILocation } from '@/types/game';
+import { makeBasicGraph, makeGraph } from '@/utils/graph';
+import { isSuccess, pressEmpty, pressMine } from '@/utils/game';
 
 function* initGameSaga(): Generator {
   const {
@@ -54,7 +17,7 @@ function* initGameSaga(): Generator {
 
 function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
   const {
-    game: { graph, currentGraph, isProcess, isEnd },
+    game: { graph, currentGraph, isProcess, isEnd, remainMine },
   } = (yield select()) as RootState;
 
   if (isEnd) return;
@@ -77,6 +40,8 @@ function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
     default:
       nextCurrentGraph[row][column] = graphCell;
   }
+
+  if (isSuccess(nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
   yield put({ type: gameStore.clickSuccess.type, payload: nextCurrentGraph });
 }
 
