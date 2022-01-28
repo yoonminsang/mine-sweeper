@@ -11,4 +11,7 @@ dist
 # yarn
 yarn-error.log
 
+# test
+coverage
+
 .DS_Store
