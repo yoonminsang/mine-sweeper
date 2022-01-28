@@ -29,7 +29,11 @@ const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number,
     visit[row][column] = true;
     if (typeof graph[row][column] === 'number') nextCurrentGraph[row][column] = graph[row][column] as number;
     if (graph[row][column] !== 0) return;
-    // 동서남북
+
+    if (row + 1 < graphRow && column + 1 < graphColumn) changeGraph(row + 1, column + 1);
+    if (row + 1 < graphRow && column - 1 >= 0) changeGraph(row + 1, column - 1);
+    if (row - 1 >= 0 && column + 1 < graphColumn) changeGraph(row - 1, column + 1);
+    if (row - 1 >= 0 && column - 1 >= 0) changeGraph(row - 1, column - 1);
     if (column + 1 < graphColumn) changeGraph(row, column + 1);
     if (column - 1 >= 0) changeGraph(row, column - 1);
     if (row - 1 >= 0) changeGraph(row - 1, column);
