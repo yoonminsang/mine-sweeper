@@ -23,7 +23,7 @@ const calcAroundMine = (graph: TGraph, graphRow: number, graphColumn: number): n
   return aroundMine;
 };
 
-describe('util', () => {
+describe('graph util', () => {
   it('check the number of mines in the beginner graph ', () => {
     const graph = makeGraph(DIFFICULTY.beginner);
     const mineNumber = checkMineNumber(graph);
