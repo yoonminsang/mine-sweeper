@@ -72,6 +72,7 @@ const slice = createSlice({
       state.isSuccess = true;
       state.isEnd = true;
       state.isProcess = false;
+      state.remainMine = 0;
     },
     failGame: (state) => {
       state.isFail = true;
