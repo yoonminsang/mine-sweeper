@@ -4,7 +4,7 @@ import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
 import { ILocation } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils/graph';
-import { isSuccess, pressEmpty, pressMine } from '@/utils/game';
+import { checkPressSync, isSuccess, pressEmpty, pressMine } from '@/utils/game';
 
 function* initGameSaga(): Generator {
   const {
@@ -41,13 +41,13 @@ function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
       nextCurrentGraph[row][column] = graphCell;
   }
 
-  if (isSuccess(nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
+  if (isSuccess(graph, nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
   yield put({ type: gameStore.clickSuccess.type, payload: { currentGraph: nextCurrentGraph } });
 }
 
 function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
   const {
-    game: { currentGraph, isEnd, remainMine },
+    game: { graph, currentGraph, isEnd, remainMine },
   } = (yield select()) as RootState;
   if (isEnd) return;
 
@@ -71,6 +71,7 @@ function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
     default:
       break;
   }
+  if (isSuccess(graph, nextCurrentGraph, nextRemainMine)) yield put({ type: gameStore.successGame.type });
   yield put({
     type: gameStore.clickSuccess.type,
     payload: { currentGraph: nextCurrentGraph, remainMine: nextRemainMine },
@@ -78,7 +79,20 @@ function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
 }
 
 function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
-  // TODO
+  const {
+    game: { graph, currentGraph, isEnd, remainMine },
+  } = (yield select()) as RootState;
+  if (isEnd) return;
+
+  const { row, column } = action.payload;
+  const nextCurrentGraph = currentGraph.map((v) => v.slice()); // 2차원 배열 복사
+  checkPressSync(graph, nextCurrentGraph, row, column);
+
+  if (isSuccess(graph, nextCurrentGraph, remainMine)) yield put({ type: gameStore.successGame.type });
+  yield put({
+    type: gameStore.clickSuccess.type,
+    payload: { currentGraph: nextCurrentGraph },
+  });
 }
 
 export { initGameSaga, leftClickSaga, rightClickSaga, syncClickSaga };
