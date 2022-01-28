@@ -18,4 +18,4 @@ const GameFace: React.FC<IProps> = ({ face, margin }) => {
   );
 };
 
-export default GameFace;
+export default React.memo(GameFace);
