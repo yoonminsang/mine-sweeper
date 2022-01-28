@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import styled from 'styled-components';
+import GameGraphCommon from './game-graph-common';
 
 interface IProps {
   index: number;
@@ -12,13 +13,10 @@ const Row = styled.div`
 `;
 
 const GameGraphCenter: React.FC<IProps> = ({ index }) => {
-  const indexArr = Array(index).fill(null);
   return (
     <Row>
       <img src="http://freeminesweeper.org/images/borderjointl.gif" alt="img" />
-      {indexArr.map((_, i) => {
-        return <img key={i} src="http://freeminesweeper.org/images/bordertb.gif" alt="img" width={16} height={10} />;
-      })}
+      <GameGraphCommon index={index} />
       <img src="http://freeminesweeper.org/images/borderjointr.gif" alt="img" />
     </Row>
   );
