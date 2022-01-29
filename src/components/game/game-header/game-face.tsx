@@ -30,7 +30,7 @@ const GameFace: React.FC<IProps> = ({ face, margin }) => {
     default:
       break;
   }
-  return <Img src={src} alt="img" style={{ margin: `0 ${margin}px` }} />;
+  return <Img src={src} alt={face} style={{ margin: `0 ${margin}px` }} />;
 };
 
 export default React.memo(GameFace);
