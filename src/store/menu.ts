@@ -19,7 +19,7 @@ const slice = createSlice({
   reducers: {
     changeDifficulty: (state) => state,
     changeDifficultySuccess: (state, action: PayloadAction<StateProps>) => {
-      state = action.payload;
+      return action.payload;
     },
   },
 });
