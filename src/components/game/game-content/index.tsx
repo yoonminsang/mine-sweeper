@@ -23,6 +23,11 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
+const Img = styled.img`
+  width: 10px;
+  height: 16px;
+`;
+
 const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp }) => {
   return (
     <Wrapper>
@@ -30,7 +35,7 @@ const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp })
       {currentGraph.map((currentGraphRow, i) => {
         return (
           <Row key={i}>
-            <img src={borderlr} alt="borderlr" />
+            <Img src={borderlr} alt="borderlr" />
             {currentGraphRow.map((currentGraphCell, j) => {
               return (
                 <GameCell
@@ -43,7 +48,7 @@ const GameContent: React.FC<IProps> = ({ currentGraph, onMouseDown, onMouseUp })
                 />
               );
             })}
-            <img src={borderlr} alt="borderlr" />
+            <Img src={borderlr} alt="borderlr" />
           </Row>
         );
       })}

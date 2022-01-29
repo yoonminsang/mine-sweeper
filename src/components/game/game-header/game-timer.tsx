@@ -17,7 +17,8 @@ interface IProps {
 }
 
 const Img = styled.img`
-  heigth: 23px;
+  width: 13px;
+  height: 23px;
 `;
 
 const GameTimer: React.FC<IProps> = ({ number }) => {

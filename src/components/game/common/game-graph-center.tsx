@@ -14,12 +14,17 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
+const Img = styled.img`
+  width: 10px;
+  height: 10px;
+`;
+
 const GameGraphCenter: React.FC<IProps> = ({ index }) => {
   return (
     <Row>
-      <img src={borderjointl} alt="borderjointl" />
+      <Img src={borderjointl} alt="borderjointl" />
       <GameGraphCommon index={index} />
-      <img src={borderjointr} alt="borderjointr" />
+      <Img src={borderjointr} alt="borderjointr" />
     </Row>
   );
 };
