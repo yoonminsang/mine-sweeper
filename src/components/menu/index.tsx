@@ -54,7 +54,6 @@ const Menu: React.FC<IProps> = ({ difficulty, onChangeDifficulty, gameInitOption
 
   const onSubmitCustomDifficultyHandler = useCallback(
     (e: React.FormEvent, gameInitOption: IGameInitOption) => {
-      console.log('submit');
       e.preventDefault();
       const { row, column, mine } = gameInitOption;
       if (row <= 0 || row > 100 || column <= 0 || column > 100) {

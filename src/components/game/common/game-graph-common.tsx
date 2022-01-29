@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import styled from 'styled-components';
+import borderrtb from '@/assets/images/bordertb.gif';
 
 interface IProps {
   index: number;
@@ -16,7 +17,7 @@ const GameGraphCommon: React.FC<IProps> = ({ index }) => {
   return (
     <>
       {indexArr.map((_, i) => {
-        return <Img key={i} src="http://freeminesweeper.org/images/bordertb.gif" alt="img" />;
+        return <Img key={i} src={borderrtb} alt="borderrtb" />;
       })}
     </>
   );

@@ -2,6 +2,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import GameGraphCommon from './game-graph-common';
+import bordertl from '@/assets/images/bordertl.gif';
+import bordertr from '@/assets/images/bordertr.gif';
 
 interface IProps {
   index: number;
@@ -15,9 +17,9 @@ const Row = styled.div`
 const GameGraphTop: React.FC<IProps> = ({ index }) => {
   return (
     <Row>
-      <img src="http://freeminesweeper.org/images/bordertl.gif" alt="img" />
+      <img src={bordertl} alt="bordertl" />
       <GameGraphCommon index={index} />
-      <img src="http://freeminesweeper.org/images/bordertr.gif" alt="img" />
+      <img src={bordertr} alt="bordertr" />
     </Row>
   );
 };

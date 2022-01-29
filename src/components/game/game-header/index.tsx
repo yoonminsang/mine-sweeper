@@ -4,6 +4,7 @@ import { TFace } from '@/types/game';
 import GameGraphTop from '../common/game-graph-top';
 import GameFace from './game-face';
 import GameTimer from './game-timer';
+import borderlr from '@/assets/images/borderlr.gif';
 
 interface IProps {
   index: number;
@@ -54,7 +55,7 @@ const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isF
     <Wrapper>
       <GameGraphTop index={index} />
       <Row>
-        <Img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" />
+        <Img src={borderlr} alt="borderlr" />
         <GameTimer number={remainMineArr[0]} />
         <GameTimer number={remainMineArr[1]} />
         <GameTimer number={remainMineArr[2]} />
@@ -64,7 +65,7 @@ const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isF
         <GameTimer number={timerArr[0]} />
         <GameTimer number={timerArr[1]} />
         <GameTimer number={timerArr[2]} />
-        <Img src="http://freeminesweeper.org/images/borderlr.gif" alt="img" />
+        <Img src={borderlr} alt="borderlr" />
       </Row>
     </Wrapper>
   );
