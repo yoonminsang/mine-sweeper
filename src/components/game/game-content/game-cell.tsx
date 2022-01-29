@@ -36,7 +36,6 @@ const Img = styled.img`
 `;
 
 const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, row, column }) => {
-  // const open = { open0, open1, open2, open3, open4, open5, open6, open7, open8 };
   let src = '';
   switch (currentGraphCell) {
     case 'notSelect':
@@ -97,4 +96,4 @@ const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, 
   );
 };
 
-export default GameCell;
+export default React.memo(GameCell);
