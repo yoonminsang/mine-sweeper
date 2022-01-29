@@ -24,7 +24,7 @@ const make1DMineArr = (row: number, column: number, mine: number): number[] => {
 const make2DMineArr = (row: number, column: number, preMineArr: number[]): number[][] => {
   const mineArr: number[][] = preMineArr.map((mine) => {
     const mineRow = Math.floor(mine / column);
-    const mineColumn = mine % row;
+    const mineColumn = mine % column;
     return [mineRow, mineColumn];
   });
   return mineArr;
