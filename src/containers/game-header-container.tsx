@@ -28,6 +28,12 @@ const GameHeaderContainer: React.FC = () => {
     } else if (timerId.current) clearInterval(timerId.current);
   }, [dispatch, isProcess]);
 
+  useEffect(() => {
+    return () => {
+      if (timerId.current) clearInterval(timerId.current);
+    };
+  }, []);
+
   return (
     <GameHeader
       index={index}
