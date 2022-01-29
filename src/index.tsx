@@ -12,8 +12,8 @@ import { rootReducer, rootSaga } from './store';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = process.env.NODE_ENV === 'development' ? [sagaMiddleware, logger] : [sagaMiddleware];
-// const middleware = [sagaMiddleware];
+// const middleware = process.env.NODE_ENV === 'development' ? [sagaMiddleware, logger] : [sagaMiddleware];
+const middleware = [sagaMiddleware];
 
 const store = configureStore({
   reducer: rootReducer,
