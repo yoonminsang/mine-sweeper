@@ -10,7 +10,7 @@ interface IProps {
   column: number;
 }
 
-const Button = styled.a`
+const Button = styled.button`
   width: 16px;
   height: 16px;
 `;

@@ -26,7 +26,7 @@ const Row = styled.div`
   height: 26px;
 `;
 
-const Button = styled.a`
+const Button = styled.button`
   display: flex;
 `;
 
