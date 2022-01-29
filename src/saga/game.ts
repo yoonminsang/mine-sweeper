@@ -4,7 +4,15 @@ import * as gameStore from '@/store/game';
 import { RootState } from '@/store';
 import { ILocation, TCurrentGraph, TGraph } from '@/types/game';
 import { makeBasicGraph, makeGraph } from '@/utils/graph';
-import { chagneGraphWhenSuccess, pressSync, copy2DArray, isSuccess, pressEmpty, pressMine } from '@/utils/game';
+import {
+  chagneGraphWhenSuccess,
+  pressSync,
+  copy2DArray,
+  isSuccess,
+  pressEmpty,
+  pressMine,
+  pressRight,
+} from '@/utils/game';
 
 function* successSaga(graph: TGraph, nextCurrentGraph: TCurrentGraph, remainMine: number): Generator {
   if (isSuccess(nextCurrentGraph, remainMine)) {
@@ -57,25 +65,6 @@ function* leftClickSaga(action: PayloadAction<ILocation>): Generator {
   }
 }
 
-const rightClickSagaHelper = (nextCurrentGraph: TCurrentGraph, remainMine: number, row: number, column: number) => {
-  const currentGraphCell = nextCurrentGraph[row][column];
-  // eslint-disable-next-line default-case
-  switch (currentGraphCell) {
-    case 'notSelect':
-      nextCurrentGraph[row][column] = 'flag';
-      remainMine -= 1;
-      break;
-    case 'flag':
-      nextCurrentGraph[row][column] = 'question';
-      remainMine += 1;
-      break;
-    case 'question':
-      nextCurrentGraph[row][column] = 'notSelect';
-      break;
-  }
-  return remainMine;
-};
-
 function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
   const { game } = (yield select()) as RootState;
   const { graph, currentGraph, isEnd } = game;
@@ -86,7 +75,7 @@ function* rightClickSaga(action: PayloadAction<ILocation>): Generator {
 
   const nextCurrentGraph = copy2DArray(currentGraph);
 
-  remainMine = rightClickSagaHelper(nextCurrentGraph, remainMine, row, column);
+  remainMine = pressRight(nextCurrentGraph, remainMine, row, column);
   yield call(successSaga, graph, nextCurrentGraph, remainMine);
   yield put({
     type: gameStore.clickSuccess.type,

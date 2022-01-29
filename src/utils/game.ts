@@ -1,25 +1,25 @@
 import { TCurrentGraph, TGraph } from '@/types/game';
 
-const pressMine = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
+const pressMine = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
   const [graphRow, graphColumn] = [graph.length, graph[0].length];
   for (let i = 0; i < graphRow; i++) {
     for (let j = 0; j < graphColumn; j++) {
-      if (typeof nextCurrentGraph[i][j] === 'number') continue;
-      if (graph[i][j] === 'mine' && nextCurrentGraph[i][j] === 'flag') continue;
-      if (graph[i][j] === 'mine' && nextCurrentGraph[i][j] !== 'flag') {
-        nextCurrentGraph[i][j] = 'bombRevealed';
+      if (typeof currentGraph[i][j] === 'number') continue;
+      if (graph[i][j] === 'mine' && currentGraph[i][j] === 'flag') continue;
+      if (graph[i][j] === 'mine' && currentGraph[i][j] !== 'flag') {
+        currentGraph[i][j] = 'bombRevealed';
         continue;
       }
-      if (graph[i][j] !== 'mine' && nextCurrentGraph[i][j] === 'flag') {
-        nextCurrentGraph[i][j] = 'bombmIsFlagged';
+      if (graph[i][j] !== 'mine' && currentGraph[i][j] === 'flag') {
+        currentGraph[i][j] = 'bombmIsFlagged';
         continue;
       }
     }
   }
-  nextCurrentGraph[row][column] = 'bombDeath';
+  currentGraph[row][column] = 'bombDeath';
 };
 
-const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number, column: number) => {
+const pressEmpty = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
   const [graphRow, graphColumn] = [graph.length, graph[0].length];
   const visit = Array(graphRow)
     .fill(null)
@@ -27,7 +27,7 @@ const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number,
   const changeGraph = (row: number, column: number) => {
     if (visit[row][column]) return;
     visit[row][column] = true;
-    if (typeof graph[row][column] === 'number') nextCurrentGraph[row][column] = graph[row][column] as number;
+    if (typeof graph[row][column] === 'number') currentGraph[row][column] = graph[row][column] as number;
     if (graph[row][column] !== 0) return;
 
     if (row + 1 < graphRow && column + 1 < graphColumn) changeGraph(row + 1, column + 1);
@@ -42,26 +42,45 @@ const pressEmpty = (graph: TGraph, nextCurrentGraph: TCurrentGraph, row: number,
   changeGraph(row, column);
 };
 
-const calc2DIncludeCount = (nextCurrentGraph: TCurrentGraph, value: string): number => {
-  const count = nextCurrentGraph.reduce((acc, cur) => {
+const pressRight = (currentGraph: TCurrentGraph, remainMine: number, row: number, column: number) => {
+  const currentGraphCell = currentGraph[row][column];
+  // eslint-disable-next-line default-case
+  switch (currentGraphCell) {
+    case 'notSelect':
+      currentGraph[row][column] = 'flag';
+      remainMine -= 1;
+      break;
+    case 'flag':
+      currentGraph[row][column] = 'question';
+      remainMine += 1;
+      break;
+    case 'question':
+      currentGraph[row][column] = 'notSelect';
+      break;
+  }
+  return remainMine;
+};
+
+const calc2DIncludeCount = (currentGraph: TCurrentGraph, value: string): number => {
+  const count = currentGraph.reduce((acc, cur) => {
     const rowCount = cur.filter((v) => v === value).length;
     return acc + rowCount;
   }, 0);
   return count;
 };
 
-const isSuccess = (nextCurrentGraph: TCurrentGraph, remainMine: number): boolean => {
-  const notSelectCount = calc2DIncludeCount(nextCurrentGraph, 'notSelect');
+const isSuccess = (currentGraph: TCurrentGraph, remainMine: number): boolean => {
+  const notSelectCount = calc2DIncludeCount(currentGraph, 'notSelect');
   return remainMine === notSelectCount;
 };
 
-const chagneGraphWhenSuccess = (graph: TGraph, nextCurrentGraph: TCurrentGraph) => {
+const chagneGraphWhenSuccess = (graph: TGraph, currentGraph: TCurrentGraph) => {
   const [graphRow, graphColumn] = [graph.length, graph[0].length];
   for (let i = 0; i < graphRow; i++) {
     for (let j = 0; j < graphColumn; j++) {
-      if (nextCurrentGraph[i][j] === 'notSelect') {
-        if (graph[i][j] === 'mine') nextCurrentGraph[i][j] = 'flag';
-        else nextCurrentGraph[i][j] = graph[i][j] as number;
+      if (currentGraph[i][j] === 'notSelect') {
+        if (graph[i][j] === 'mine') currentGraph[i][j] = 'flag';
+        else currentGraph[i][j] = graph[i][j] as number;
       }
     }
   }
@@ -101,4 +120,4 @@ const copy2DArray = (arr: any[][]): any[][] => {
   return arr.map((v) => v.slice());
 };
 
-export { pressMine, pressEmpty, isSuccess, chagneGraphWhenSuccess, pressSync, copy2DArray };
+export { pressMine, pressEmpty, pressRight, isSuccess, chagneGraphWhenSuccess, pressSync, copy2DArray };
