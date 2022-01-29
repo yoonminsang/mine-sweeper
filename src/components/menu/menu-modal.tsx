@@ -2,6 +2,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { TDifficulty } from '@/types/game';
+import checked from '@/assets/images/checked.gif';
+import notChecked from '@/assets/images/notchecked.gif';
 
 interface IProps {
   visible: boolean;
@@ -9,8 +11,8 @@ interface IProps {
   onClickDifficultyHandler: (difficulty: TDifficulty) => void;
 }
 
-const CHECK = 'http://freeminesweeper.org/images/checked.gif';
-const NOT_CHECK = 'http://freeminesweeper.org/images/notchecked.gif';
+// const CHECK = 'http://freeminesweeper.org/images/checked.gif';
+// const NOT_CHECK = 'http://freeminesweeper.org/images/notchecked.gif';
 
 const Wrapper = styled.div<{ visible: boolean }>`
   width: 100px;
@@ -31,9 +33,12 @@ const Wrapper = styled.div<{ visible: boolean }>`
 const BorderDiv = styled.div`
   border: 1px solid black;
   margin: 1px;
-  img {
-    margin: 0 3px;
-  }
+`;
+
+const Img = styled.img`
+  margin: 0 3px;
+  width: 10px;
+  height: 10px;
 `;
 
 const Button = styled.button`
@@ -47,10 +52,11 @@ const MenuModal: React.FC<IProps> = ({ visible, difficulty, onClickDifficultyHan
     <Wrapper visible={visible}>
       <BorderDiv>
         {difficultyArr.map((difficultyValue, index) => {
-          const src = difficultyValue === difficulty ? CHECK : NOT_CHECK;
+          const src = difficultyValue === difficulty ? checked : notChecked;
+          const alt = difficultyValue === difficulty ? 'checked' : 'notChecked';
           return (
             <Button key={index} type="button" onClick={() => onClickDifficultyHandler(difficultyValue)}>
-              <img src={src} alt="img" />
+              <Img src={src} alt={alt} />
               {difficultyValue}
             </Button>
           );
