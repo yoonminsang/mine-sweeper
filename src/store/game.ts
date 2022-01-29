@@ -27,7 +27,6 @@ interface StateProps {
   currentGraph: TCurrentGraph;
   remainMine: number;
   timer: number;
-  timerId: number;
   isProcess: boolean;
   isSuccess: boolean;
   isFail: boolean;
@@ -41,7 +40,6 @@ const initialState: StateProps = {
   currentGraph: makeBasicGraph(row, column, 'notSelect'),
   remainMine: mine,
   timer: 0,
-  timerId: -1,
   isProcess: false,
   isSuccess: false,
   isFail: false,
@@ -79,12 +77,25 @@ const slice = createSlice({
       state.isEnd = true;
       state.isProcess = false;
     },
+    plusTime: (state) => {
+      state.timer += 1;
+    },
   },
 });
 
 const { actions, reducer: gameReducer } = slice;
-const { initGame, initGameSuccess, leftClick, rightClick, syncClick, clickSuccess, startGame, successGame, failGame } =
-  actions;
+const {
+  initGame,
+  initGameSuccess,
+  leftClick,
+  rightClick,
+  syncClick,
+  clickSuccess,
+  startGame,
+  successGame,
+  failGame,
+  plusTime,
+} = actions;
 
 function* gameSaga(): Generator {
   yield takeLatest(initGame.type, initGameSaga);
@@ -104,5 +115,6 @@ export {
   startGame,
   successGame,
   failGame,
+  plusTime,
   gameSaga,
 };
