@@ -67,6 +67,7 @@ textarea {
   background-color: inherit;
 }
 button {
+  background: inherit;
   color: inherit;
   border:0;
 }
