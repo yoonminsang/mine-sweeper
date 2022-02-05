@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
+// import logger from 'redux-logger';
 import { configureStore } from '@reduxjs/toolkit';
 import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
