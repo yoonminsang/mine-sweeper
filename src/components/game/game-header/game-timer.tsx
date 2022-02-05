@@ -13,7 +13,7 @@ import time8 from '@/assets/images/time8.gif';
 import time9 from '@/assets/images/time9.gif';
 
 interface IProps {
-  number: string;
+  number: '-' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 }
 
 const Img = styled.img`
@@ -21,46 +21,23 @@ const Img = styled.img`
   height: 23px;
 `;
 
+const TimerImg = {
+  '-': time_,
+  0: time0,
+  1: time1,
+  2: time2,
+  3: time3,
+  4: time4,
+  5: time5,
+  6: time6,
+  7: time7,
+  8: time8,
+  9: time9,
+};
+
 const GameTimer: React.FC<IProps> = ({ number }) => {
-  let src = '';
-  switch (number) {
-    case '-':
-      src = time_;
-      break;
-    case '0':
-      src = time0;
-      break;
-    case '1':
-      src = time1;
-      break;
-    case '2':
-      src = time2;
-      break;
-    case '3':
-      src = time3;
-      break;
-    case '4':
-      src = time4;
-      break;
-    case '5':
-      src = time5;
-      break;
-    case '6':
-      src = time6;
-      break;
-    case '7':
-      src = time7;
-      break;
-    case '8':
-      src = time8;
-      break;
-    case '9':
-      src = time9;
-      break;
-    default:
-      break;
-  }
-  return <Img src={src} alt={number} />;
+  const src = TimerImg[number];
+  return <Img src={src} alt={String(number)} />;
 };
 
 export default GameTimer;

@@ -15,21 +15,14 @@ const Img = styled.img`
   height: 26;
 `;
 
+const FaceImg = {
+  dead,
+  smile,
+  win,
+};
+
 const GameFace: React.FC<IProps> = ({ face, margin }) => {
-  let src = '';
-  switch (face) {
-    case 'dead':
-      src = dead;
-      break;
-    case 'smile':
-      src = smile;
-      break;
-    case 'win':
-      src = win;
-      break;
-    default:
-      break;
-  }
+  const src = FaceImg[face];
   return <Img src={src} alt={face} style={{ margin: `0 ${margin}px` }} />;
 };
 

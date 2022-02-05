@@ -35,60 +35,26 @@ const Img = styled.img`
   height: 100%;
 `;
 
+const CellImg = {
+  notSelect: blank,
+  flag: bombflagged,
+  bombRevealed: bombrevealed,
+  bombDeath: bombdeath,
+  bombmIsFlagged: bombmisflagged,
+  question: bombquestion,
+  0: open0,
+  1: open1,
+  2: open2,
+  3: open3,
+  4: open4,
+  5: open5,
+  6: open6,
+  7: open7,
+  8: open8,
+};
+
 const GameCell: React.FC<IProps> = ({ currentGraphCell, onMouseDown, onMouseUp, row, column }) => {
-  let src = '';
-  switch (currentGraphCell) {
-    case 'notSelect':
-      src = blank;
-      break;
-    case 'flag':
-      src = bombflagged;
-      break;
-    case 'bombRevealed':
-      src = bombrevealed;
-      break;
-    case 'bombDeath':
-      src = bombdeath;
-      break;
-    case 'bombmIsFlagged':
-      src = bombmisflagged;
-      break;
-    case 'question':
-      src = bombquestion;
-      break;
-    case 0:
-      src = open0;
-      break;
-    case 1:
-      src = open1;
-      break;
-    case 2:
-      src = open2;
-      break;
-    case 3:
-      src = open3;
-      break;
-    case 4:
-      src = open4;
-      break;
-    case 5:
-      src = open5;
-      break;
-    case 6:
-      src = open6;
-      break;
-    case 7:
-      src = open7;
-      break;
-    case 8:
-      src = open8;
-      break;
-    default:
-      break;
-  }
-  // default:
-  //   src = open[`open${currentGraphCell}`];
-  //   break;
+  const src = CellImg[currentGraphCell];
   return (
     <Button onMouseDown={(e) => onMouseDown(e, row, column)} onMouseUp={(e) => onMouseUp(e, row, column)}>
       <Img src={src} alt={currentGraphCell.toString()} />
