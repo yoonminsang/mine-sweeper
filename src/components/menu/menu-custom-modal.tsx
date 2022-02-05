@@ -72,7 +72,12 @@ const MenuCustomModal: React.FC<IProps> = ({
     if (customVisible && rowRef.current) rowRef.current.focus();
   }, [customVisible]);
   return (
-    <Wrapper customVisible={customVisible} onSubmit={(e) => onSubmitCustomDifficultyHandler(e, { row, column, mine })}>
+    <Wrapper
+      customVisible={customVisible}
+      onSubmit={(e) =>
+        onSubmitCustomDifficultyHandler(e, { row: Number(row), column: Number(column), mine: Number(mine) })
+      }
+    >
       <BorderDiv>
         <Row>
           <Label>행</Label>
