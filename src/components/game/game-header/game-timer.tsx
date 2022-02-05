@@ -13,7 +13,7 @@ import time8 from '@/assets/images/time8.gif';
 import time9 from '@/assets/images/time9.gif';
 
 interface IProps {
-  number: '-' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  number: '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 }
 
 const Img = styled.img`
@@ -23,16 +23,16 @@ const Img = styled.img`
 
 const TimerImg = {
   '-': time_,
-  0: time0,
-  1: time1,
-  2: time2,
-  3: time3,
-  4: time4,
-  5: time5,
-  6: time6,
-  7: time7,
-  8: time8,
-  9: time9,
+  '0': time0,
+  '1': time1,
+  '2': time2,
+  '3': time3,
+  '4': time4,
+  '5': time5,
+  '6': time6,
+  '7': time7,
+  '8': time8,
+  '9': time9,
 };
 
 const GameTimer: React.FC<IProps> = ({ number }) => {

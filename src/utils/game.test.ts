@@ -1,4 +1,4 @@
-import { TCurrentGraph, TGraph } from '@/types/game';
+import { TCurrentGraph, TGraph, TNumber } from '@/types/game';
 import { pressMine, pressEmpty, pressRight, isSuccess, chagneGraphWhenSuccess, pressSync, copy2DArray } from './game';
 import { makeBasicGraph } from './graph';
 
@@ -97,7 +97,7 @@ describe('game util', () => {
       }
     });
     it('press mine when press number', () => {
-      currentGraph[1][0] = graph[1][0] as number;
+      currentGraph[1][0] = graph[1][0] as TNumber;
       pressRight(currentGraph, remainMine, 0, 0);
       pressMine(graph, currentGraph, 0, 1);
       expect(currentGraph[1][0]).toBe(graph[1][0]);
@@ -135,7 +135,7 @@ describe('game util', () => {
   it('success', () => {
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < column; j++) {
-        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as number;
+        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
       }
     }
     expect(isSuccess(currentGraph, remainMine)).toBeTruthy();
@@ -144,7 +144,7 @@ describe('game util', () => {
   it('chagne graph when success(remain mine)', () => {
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < column; j++) {
-        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as number;
+        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
       }
     }
     chagneGraphWhenSuccess(graph, currentGraph);
@@ -159,7 +159,7 @@ describe('game util', () => {
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < column; j++) {
         if (i === 1 && j === 0) continue;
-        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as number;
+        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
         else remainMine = pressRight(currentGraph, remainMine, i, j);
       }
     }
@@ -173,7 +173,7 @@ describe('game util', () => {
 
   it('press sync', () => {
     pressRight(currentGraph, remainMine, 0, 1);
-    currentGraph[0][2] = graph[0][2] as number;
+    currentGraph[0][2] = graph[0][2] as TNumber;
     pressSync(graph, currentGraph, 0, 2);
     expect(currentGraph[0][3]).not.toBe('notSelect');
     expect(currentGraph[1][1]).not.toBe('notSelect');
@@ -184,7 +184,7 @@ describe('game util', () => {
 
   it('press sync and press empty', () => {
     pressRight(currentGraph, remainMine, 0, 1);
-    currentGraph[0][2] = graph[0][2] as number;
+    currentGraph[0][2] = graph[0][2] as TNumber;
     pressSync(graph, currentGraph, 0, 2);
     emptyClickArr.forEach(([row, column]) => {
       expect(currentGraph[row][column]).not.toBe('notSelect');

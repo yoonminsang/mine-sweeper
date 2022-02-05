@@ -30,3 +30,5 @@ export type TCurrentGraphCell =
 export type TCurrentGraph = TCurrentGraphCell[][];
 export type TDifficulty = 'beginner' | 'intermediate' | 'expert' | 'custom';
 export type TFace = 'smile' | 'dead' | 'win';
+export type TNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type TTimer = '-' | '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';

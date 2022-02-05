@@ -1,4 +1,4 @@
-import { TCurrentGraph, TGraph } from '@/types/game';
+import { TCurrentGraph, TGraph, TNumber } from '@/types/game';
 
 const pressMine = (graph: TGraph, currentGraph: TCurrentGraph, row: number, column: number) => {
   const [graphRow, graphColumn] = [graph.length, graph[0].length];
@@ -27,7 +27,7 @@ const pressEmpty = (graph: TGraph, currentGraph: TCurrentGraph, row: number, col
   const changeGraph = (row: number, column: number) => {
     if (visit[row][column]) return;
     visit[row][column] = true;
-    if (typeof graph[row][column] === 'number') currentGraph[row][column] = graph[row][column] as number;
+    if (typeof graph[row][column] === 'number') currentGraph[row][column] = graph[row][column] as TNumber;
     if (graph[row][column] !== 0) return;
 
     if (row + 1 < graphRow && column + 1 < graphColumn) changeGraph(row + 1, column + 1);
@@ -80,7 +80,7 @@ const chagneGraphWhenSuccess = (graph: TGraph, currentGraph: TCurrentGraph) => {
     for (let j = 0; j < graphColumn; j++) {
       if (currentGraph[i][j] === 'notSelect') {
         if (graph[i][j] === 'mine') currentGraph[i][j] = 'flag';
-        else currentGraph[i][j] = graph[i][j] as number;
+        else currentGraph[i][j] = graph[i][j] as TNumber;
       }
     }
   }
@@ -110,7 +110,7 @@ const pressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, colu
   if (count === currentGraphValue) {
     locationArr.forEach(([row, column]) => {
       if (graph[row][column] === 0) pressEmpty(graph, currentGraph, row, column);
-      else currentGraph[row][column] = graph[row][column] as number;
+      else currentGraph[row][column] = graph[row][column] as TNumber;
     });
   }
 };

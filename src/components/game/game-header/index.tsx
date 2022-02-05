@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { TFace } from '@/types/game';
+import { TFace, TTimer } from '@/types/game';
 import GameGraphTop from '../common/game-graph-top';
 import GameFace from './game-face';
 import GameTimer from './game-timer';
@@ -45,10 +45,10 @@ const GameHeader: React.FC<IProps> = ({ index, remainMine, timer, isSuccess, isF
   }, [isSuccess, isFail]);
 
   const margin = useMemo(() => (16 * index - (13 * 6 + 26)) / 2, [index]);
-  const remainMineArr = remainMine.toString().split('');
+  const remainMineArr = remainMine.toString().split('') as TTimer[];
   if (remainMine < 0) while (remainMineArr.length < 3) remainMineArr.splice(1, 0, '0');
   else while (remainMineArr.length < 3) remainMineArr.unshift('0');
-  const timerArr = timer.toString().split('');
+  const timerArr = timer.toString().split('') as TTimer[];
   while (timerArr.length < 3) timerArr.unshift('0');
 
   return (
