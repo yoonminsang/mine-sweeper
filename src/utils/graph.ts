@@ -61,7 +61,7 @@ const makeGraph = (option: IGameInitOption): TGraph => {
       return calcAroundMine(row, column, graph, graphRow, graphColumn);
     }),
   );
-  return calcGraph;
+  return calcGraph as TGraph;
 };
 
 export { makeBasicGraph, makeGraph };
