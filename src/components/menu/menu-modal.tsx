@@ -11,9 +11,6 @@ interface IProps {
   onClickDifficultyHandler: (difficulty: TDifficulty) => void;
 }
 
-// const CHECK = 'http://freeminesweeper.org/images/checked.gif';
-// const NOT_CHECK = 'http://freeminesweeper.org/images/notchecked.gif';
-
 const Wrapper = styled.div<{ visible: boolean }>`
   width: 100px;
   position: absolute;
