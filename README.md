@@ -4,6 +4,12 @@
 - 리덕스와 리덕스사가를 이용한 상태관리
 - 유틸함수(게임, 그래프) 테스트
 
+### 실행방법
+
+- yarn install
+- yarn start
+- http://localhost:3000/ 접속
+
 ![image](https://user-images.githubusercontent.com/57904979/152739125-fd759388-f0ec-470b-9828-be5d0c0d5af9.png)
 ![image](https://user-images.githubusercontent.com/57904979/152739161-124fe579-1363-4b00-bb48-f4d62aa849fb.png)
 ![image](https://user-images.githubusercontent.com/57904979/152739188-f94f0783-e8a7-4a76-aee6-d72c5e14671c.png)
