@@ -131,6 +131,15 @@ describe('game util', () => {
   it('not success', () => {
     expect(isSuccess(currentGraph, remainMine)).toBeFalsy();
   });
+  it('not success because number is question', () => {
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < column; j++) {
+        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
+      }
+    }
+    currentGraph[1][0] = 'question';
+    expect(isSuccess(currentGraph, remainMine)).toBeFalsy();
+  });
 
   it('success', () => {
     for (let i = 0; i < row; i++) {
@@ -138,6 +147,15 @@ describe('game util', () => {
         if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
       }
     }
+    expect(isSuccess(currentGraph, remainMine)).toBeTruthy();
+  });
+  it('success because mine is questino', () => {
+    for (let i = 0; i < row; i++) {
+      for (let j = 0; j < column; j++) {
+        if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
+      }
+    }
+    currentGraph[0][0] = 'question';
     expect(isSuccess(currentGraph, remainMine)).toBeTruthy();
   });
 
