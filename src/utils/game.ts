@@ -61,17 +61,17 @@ const pressRight = (currentGraph: TCurrentGraph, remainMine: number, row: number
   return remainMine;
 };
 
-const calc2DIncludeCount = (currentGraph: TCurrentGraph, value: string): number => {
+const calcRemainCount = (currentGraph: TCurrentGraph): number => {
   const count = currentGraph.reduce((acc, cur) => {
-    const rowCount = cur.filter((v) => v === value).length;
+    const rowCount = cur.filter((v) => ['question', 'notSelect'].includes(String(v))).length;
     return acc + rowCount;
   }, 0);
   return count;
 };
 
 const isSuccess = (currentGraph: TCurrentGraph, remainMine: number): boolean => {
-  const notSelectCount = calc2DIncludeCount(currentGraph, 'notSelect');
-  return remainMine === notSelectCount;
+  const remainCount = calcRemainCount(currentGraph);
+  return remainMine === remainCount;
 };
 
 const chagneGraphWhenSuccess = (graph: TGraph, currentGraph: TCurrentGraph) => {
@@ -110,7 +110,9 @@ const pressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, colu
   if (count === currentGraphValue) {
     locationArr.forEach(([row, column]) => {
       if (graph[row][column] === 0) pressEmpty(graph, currentGraph, row, column);
-      else currentGraph[row][column] = graph[row][column] as TNumber;
+      else if (graph[row][column] === 'mine') {
+        pressMine(graph, currentGraph, row, column);
+      } else currentGraph[row][column] = graph[row][column] as TNumber;
     });
   }
 };
