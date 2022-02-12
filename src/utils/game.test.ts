@@ -149,7 +149,7 @@ describe('game util', () => {
     }
     expect(isSuccess(currentGraph, remainMine)).toBeTruthy();
   });
-  it('success because mine is questino', () => {
+  it('success because mine is question', () => {
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < column; j++) {
         if (graph[i][j] !== 'mine') currentGraph[i][j] = graph[i][j] as TNumber;
@@ -207,6 +207,24 @@ describe('game util', () => {
     emptyClickArr.forEach(([row, column]) => {
       expect(currentGraph[row][column]).not.toBe('notSelect');
     });
+  });
+
+  it('press sync and game end because flag is not mine', () => {
+    pressRight(currentGraph, remainMine, 2, 1);
+    currentGraph[2][0] = graph[2][0] as TNumber;
+    const isPressMine = pressSync(graph, currentGraph, 2, 0);
+    expect(currentGraph[2][1]).toBe('bombmIsFlagged');
+    expect(currentGraph[3][0]).toBe('bombDeath');
+    graph.forEach((arr, row) => {
+      arr.forEach((v, col) => {
+        if (v === 'mine') {
+          if (row === 2 && col === 1) expect(currentGraph[row][col]).toBe('bombmIsFlagged');
+          else if (row === 3 && col === 0) expect(currentGraph[row][col]).toBe('bombDeath');
+          else expect(currentGraph[row][col]).toBe('bombRevealed');
+        }
+      });
+    });
+    expect(isPressMine).toBe(true);
   });
 
   it('press sync not working', () => {
