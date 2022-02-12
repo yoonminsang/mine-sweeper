@@ -9,22 +9,14 @@ export interface IDifficulty extends IGameInitOption {
   difficulty: TDifficulty;
 }
 
-export type TGraphCell = 'mine' | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type TGraphCell = 'mine' | TNumber;
 export type TGraph = TGraphCell[][];
 export type TCurrentGraphCell =
   | 'notSelect'
   | 'bombDeath'
   | 'bombRevealed'
   | 'bombmIsFlagged'
-  | 0
-  | 1
-  | 2
-  | 3
-  | 4
-  | 5
-  | 6
-  | 7
-  | 8
+  | TNumber
   | 'flag'
   | 'question';
 export type TCurrentGraph = TCurrentGraphCell[][];
