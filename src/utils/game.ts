@@ -108,12 +108,17 @@ const pressSync = (graph: TGraph, currentGraph: TCurrentGraph, row: number, colu
   const { count, locationArr } = pressSyncHelper(currentGraph, row, column);
 
   if (count === currentGraphValue) {
+    let isPressMine = false;
     locationArr.forEach(([row, column]) => {
-      if (graph[row][column] === 0) pressEmpty(graph, currentGraph, row, column);
-      else if (graph[row][column] === 'mine') {
+      if (graph[row][column] === 'mine') {
         pressMine(graph, currentGraph, row, column);
-      } else currentGraph[row][column] = graph[row][column] as TNumber;
+        isPressMine = true;
+      } else if (!isPressMine) {
+        if (graph[row][column] === 0) pressEmpty(graph, currentGraph, row, column);
+        else currentGraph[row][column] = graph[row][column] as TNumber;
+      }
     });
+    return isPressMine;
   }
 };
 

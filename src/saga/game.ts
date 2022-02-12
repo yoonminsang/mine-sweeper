@@ -91,7 +91,8 @@ function* syncClickSaga(action: PayloadAction<ILocation>): Generator {
 
   const { row, column } = action.payload;
   const nextCurrentGraph = copy2DArray(currentGraph);
-  pressSync(graph, nextCurrentGraph, row, column);
+  const isPressMine = pressSync(graph, nextCurrentGraph, row, column);
+  if (isPressMine) yield put({ type: gameStore.failGame.type });
 
   yield call(successSaga, graph, nextCurrentGraph, remainMine);
   yield put({
